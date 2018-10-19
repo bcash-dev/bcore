@@ -399,42 +399,8 @@ public:
 
         genesis = CreateGenesisBlock(1519344002, 0, 0x207fffff, 1, 50 * COIN);
         consensus.hashGenesisBlock = genesis.GetHash();
-        if(true && genesis.GetHash() != uint256S("0x"))
-		{
-			printf("Searching for genesis block...\n");
-			arith_uint256 hashTarget = arith_uint256().SetCompact(genesis.nBits);
-		
-			unsigned int nHashesDone = 0;
-
-			uint256 hash;
-			while (true)
-			{
-				//hash = genesis->GetHash();
-				hash = HashX11(BEGIN(genesis.nVersion), END(genesis.nNonce));
-				
-				if (UintToArith256(hash) <= hashTarget)
-				{
-					break;
-				}
-				if ((genesis.nNonce & 0xFFF) == 0)
-				{
-					printf("nonce %08X: hash = %s (target = %s)\n", genesis.nNonce, hash.ToString().c_str(), hashTarget.ToString().c_str());
-				}
-				++genesis.nNonce;
-				if (genesis.nNonce == 0)
-				{
-					printf("NONCE WRAPPED, incrementing time\n");
-					++genesis.nTime;
-				}
-				nHashesDone += 1;
-				
-			}
-			printf("genesis.nTime = %u \n", genesis.nTime);
-            printf("genesis.nNonce = %u \n", genesis.nNonce);
-            printf("genesis.GetHash = %s\n", genesis.GetHash().ToString().c_str());
-			printf("genesis.hashMerkleRoot = %s\n", genesis.hashMerkleRoot.ToString().c_str());
-		}
-		assert(consensus.hashGenesisBlock == uint256S("0x1ab5a2c870910c66b0ae05c9d71591758fa345aa55ff82d0e9e574326053a6de"));
+        
+		assert(consensus.hashGenesisBlock == uint256S("0x7bb82f736fd9c944d3321fb2dd38b417fb7242ada70139123f6fcde553ce8d36"));
         assert(genesis.hashMerkleRoot == uint256S("0x8f98eb3bfee5195791af7eda874a00fc3a4c4eb416fb30de815424233cc8c3ac"));
 
         vFixedSeeds.clear(); //! Regtest mode doesn't have any fixed seeds.
@@ -450,7 +416,7 @@ public:
 
         checkpointData = (CCheckpointData){
             boost::assign::map_list_of
-            ( 0, uint256S("0x1ab5a2c870910c66b0ae05c9d71591758fa345aa55ff82d0e9e574326053a6de")),
+            ( 0, uint256S("0x7bb82f736fd9c944d3321fb2dd38b417fb7242ada70139123f6fcde553ce8d36")),
             1519344002,
             0,
             555
