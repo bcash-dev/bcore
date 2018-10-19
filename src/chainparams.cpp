@@ -137,8 +137,43 @@ public:
         nDelayGetHeadersTime = 24 * 60 * 60;
         nPruneAfterHeight = 100000;
 
-        genesis = CreateGenesisBlock(1519344000, 1321675, 0x1e0ffff0, 1, 50 * COIN);
+        genesis = CreateGenesisBlock(1540004400, 1321675, 0x1e0ffff0, 1, 50 * COIN);
         consensus.hashGenesisBlock = genesis.GetHash();
+		if(true && genesis.GetHash() != uint256S("0x"))
+		{
+			printf("Searching for genesis block...\n");
+			arith_uint256 hashTarget = arith_uint256().SetCompact(genesis.nBits);
+		
+			unsigned int nHashesDone = 0;
+
+			uint256 hash;
+			while (true)
+			{
+				//hash = genesis->GetHash();
+				hash = HashX11(BEGIN(genesis.nVersion), END(genesis.nNonce));
+				
+				if (UintToArith256(hash) <= hashTarget)
+				{
+					break;
+				}
+				if ((genesis.nNonce & 0xFFF) == 0)
+				{
+					printf("nonce %08X: hash = %s (target = %s)\n", genesis.nNonce, hash.ToString().c_str(), hashTarget.ToString().c_str());
+				}
+				++genesis.nNonce;
+				if (genesis.nNonce == 0)
+				{
+					printf("NONCE WRAPPED, incrementing time\n");
+					++genesis.nTime;
+				}
+				nHashesDone += 1;
+				
+			}
+			printf("genesis.nTime = %u \n", genesis.nTime);
+            printf("genesis.nNonce = %u \n", genesis.nNonce);
+            printf("genesis.GetHash = %s\n", genesis.GetHash().ToString().c_str());
+			printf("genesis.hashMerkleRoot = %s\n", genesis.hashMerkleRoot.ToString().c_str());
+		}
 		assert(consensus.hashGenesisBlock == uint256S("0x000002320db441472782a6e357c77a614eb1df4828433804073a404cb66d20cb"));
         assert(genesis.hashMerkleRoot == uint256S("0xb033fee3e137b49c2573889fef4bea46f01935e8ad1cb7c9da9940b3774e60ea"));
 
@@ -182,7 +217,7 @@ public:
         checkpointData = (CCheckpointData) {
             boost::assign::map_list_of
             (  0, uint256S("0x000002320db441472782a6e357c77a614eb1df4828433804073a404cb66d20cb"))
-            (  99013, uint256S("0x00000000005abcc7fd81d2cd31c759e33a9f72c99e21e485872932fc3f2c02bf"))
+            //(  99013, uint256S("0x00000000005abcc7fd81d2cd31c759e33a9f72c99e21e485872932fc3f2c02bf"))
             //(  60, uint256S("0x000003b6ed6527c8a923baa313bea5d29260e60b77b509163e37c9710bd8a87a"))
             // ( 16912, uint256S("0x00000000075c0d10371d55a60634da70f197548dbbfa4123e12abfcbc5738af9"))
             // ( 23912, uint256S("0x0000000000335eac6703f3b1732ec8b2f89c3ba3a7889e5767b090556bb9a276"))
@@ -203,8 +238,8 @@ public:
             // ( 523930, uint256S("0x0000000000000bccdb11c2b1cfb0ecab452abf267d89b7f46eaf2d54ce6e652c"))
             // ( 750000, uint256S("0x00000000000000b4181bbbdddbae464ce11fede5d0292fb63fdede1e7c8ab21c"))
 			,
-            1532075467, // * UNIX timestamp of last checkpoint block
-            101127,    // * total number of transactions between genesis and last checkpoint
+            1540004400, // * UNIX timestamp of last checkpoint block
+            0,    // * total number of transactions between genesis and last checkpoint
                         //   (the tx=... number in the SetBestChain debug.log lines)
             50000        // * estimated number of transactions per day after checkpoint
         };
