@@ -183,7 +183,7 @@ public:
 
         checkpointData = (CCheckpointData) {
             boost::assign::map_list_of
-            (  0, uint256S("0x000002320db441472782a6e357c77a614eb1df4828433804073a404cb66d20cb"))
+            (  0, uint256S("0x00000f864e850b0bf12369285938b30a01b0e8055bb966ebf277fcade957d681"))
             //(  99013, uint256S("0x00000000005abcc7fd81d2cd31c759e33a9f72c99e21e485872932fc3f2c02bf"))
             //(  60, uint256S("0x000003b6ed6527c8a923baa313bea5d29260e60b77b509163e37c9710bd8a87a"))
             // ( 16912, uint256S("0x00000000075c0d10371d55a60634da70f197548dbbfa4123e12abfcbc5738af9"))
@@ -283,42 +283,8 @@ public:
 
         genesis = CreateGenesisBlock(1519344001, 0, 0x1e0ffff0, 1, 50 * COIN);
         consensus.hashGenesisBlock = genesis.GetHash();
-		if(true && genesis.GetHash() != uint256S("0x"))
-		{
-			printf("Searching for genesis block...\n");
-			arith_uint256 hashTarget = arith_uint256().SetCompact(genesis.nBits);
 		
-			unsigned int nHashesDone = 0;
-
-			uint256 hash;
-			while (true)
-			{
-				//hash = genesis->GetHash();
-				hash = HashX11(BEGIN(genesis.nVersion), END(genesis.nNonce));
-				
-				if (UintToArith256(hash) <= hashTarget)
-				{
-					break;
-				}
-				if ((genesis.nNonce & 0xFFF) == 0)
-				{
-					printf("nonce %08X: hash = %s (target = %s)\n", genesis.nNonce, hash.ToString().c_str(), hashTarget.ToString().c_str());
-				}
-				++genesis.nNonce;
-				if (genesis.nNonce == 0)
-				{
-					printf("NONCE WRAPPED, incrementing time\n");
-					++genesis.nTime;
-				}
-				nHashesDone += 1;
-				
-			}
-			printf("genesis.nTime = %u \n", genesis.nTime);
-            printf("genesis.nNonce = %u \n", genesis.nNonce);
-            printf("genesis.GetHash = %s\n", genesis.GetHash().ToString().c_str());
-			printf("genesis.hashMerkleRoot = %s\n", genesis.hashMerkleRoot.ToString().c_str());
-		}
-		assert(consensus.hashGenesisBlock == uint256S("0x000009bc9a2af8ee147ff76f893ae300b7964b15b6bb838a490aab34f1428869"));
+		assert(consensus.hashGenesisBlock == uint256S("0x00000fb39655933e21af0fc4862789fb88cc0c8e8898c34c3009f6d6a4e01187"));
         assert(genesis.hashMerkleRoot == uint256S("0x8f98eb3bfee5195791af7eda874a00fc3a4c4eb416fb30de815424233cc8c3ac"));
 		
         vFixedSeeds.clear();
@@ -356,7 +322,7 @@ public:
 
         checkpointData = (CCheckpointData) {
             boost::assign::map_list_of
-            (    0, uint256S("0x000009bc9a2af8ee147ff76f893ae300b7964b15b6bb838a490aab34f1428869"))
+            (    0, uint256S("0x00000fb39655933e21af0fc4862789fb88cc0c8e8898c34c3009f6d6a4e01187"))
             // (   1999, uint256S("0x00000052e538d27fa53693efe6fb6892a0c1d26c0235f599171c48a3cce553b1"))
             // (   2999, uint256S("0x0000024bc3f4f4cb30d29827c13d921ad77d2c6072e586c7f60d83c2722cdcc5"))
 			,
