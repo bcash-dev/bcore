@@ -381,6 +381,7 @@ UniValue createrawtransaction(const UniValue& params, bool fHelp)
             "    {\n"
             "      \"address\": x.xxx   (numeric or string, required) The key is the bcash address, the numeric value (can be string) is the " + CURRENCY_UNIT + " amount\n"
             "      \"data\": \"hex\",     (string, required) The key is \"data\", the value is hex encoded data\n"
+            "      \"message\": \"{}\",     (string, optional, default=null) The key is \"message\", the message in transaction\n"
             "      ...\n"
             "    }\n"
             "3. locktime                (numeric, optional, default=0) Raw locktime. Non-0 value also locktime-activates inputs\n"
@@ -439,7 +440,12 @@ UniValue createrawtransaction(const UniValue& params, bool fHelp)
 
             CTxOut out(0, CScript() << OP_RETURN << data);
             rawTx.vout.push_back(out);
-        } else {
+        }
+        else if(name_ == "message"){
+            std::string message = sendTo[name_].getValStr().ToString();
+            rawTx.sMessage = message;
+        } 
+        else {
             CBitcoinAddress address(name_);
             if (!address.IsValid())
                 throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, string("Invalid BCash address: ")+name_);
