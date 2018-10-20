@@ -20,8 +20,8 @@ packages:
 - "python"
 reference_datetime: "2017-01-01 00:00:00"
 remotes:
-- "url": "https://github.com/bcashpay/bcash.git"
-  "dir": "bcash"
+- "url": "https://github.com/bcash-dev/bcore"
+  "dir": "bcore"
 files: []
 script: |
   WRAP_DIR=$HOME/wrapped
