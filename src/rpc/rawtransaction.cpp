@@ -442,7 +442,7 @@ UniValue createrawtransaction(const UniValue& params, bool fHelp)
             rawTx.vout.push_back(out);
         }
         else if(name_ == "message"){
-            std::string message = sendTo[name_].getValStr().ToString();
+            std::string message = sendTo[name_].getValStr();
             rawTx.sMessage = message;
         } 
         else {
